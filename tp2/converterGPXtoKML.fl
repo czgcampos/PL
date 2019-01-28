@@ -1,0 +1,66 @@
+%{
+#include <string.h>
+
+FILE* file;
+double lon=0.0;
+double lat=0.0;
+double ele=0.0;
+double sumLon=0.0;
+double sumLat=0.0;
+int nPoints=0;
+%}
+
+real [+-]?[0-9]+(\.[0-9]+)?
+
+%%
+
+" lon\=\""{real}	{
+						lon=atof(yytext+6);
+						sumLon+=lon;
+					}
+" lat\=\""{real}	{
+						lat=atof(yytext+6);
+						sumLat+=lat;
+					}
+\<ele\>{real}		{
+						nPoints++;
+						ele=atof(yytext+5);
+						fprintf(file, "%f,%f,%f ",lon,lat,ele);
+					}
+.					{;}
+
+%%
+void header(const char* nm, int i){
+	yyin=fopen(nm,"r");
+	char* name=strdup(nm);
+	int l=strlen(name);
+	name[l-3]='k';
+	name[l-2]='m';
+	name[l-1]='l';
+	file=fopen(name,"w");
+	fprintf(file,"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<kml>\n\t<Document>\n\t\t<Placemark>\n\t\t\t<name>Track nº%d</name>\n\t\t\t<visibility>1</visibility>\n\t\t\t<open>1</open>\n\t\t\t<Style id=\"red\">\n\t\t\t\t<LineStyle>\n\t\t\t\t\t<color>C81400FF</color>\n\t\t\t\t\t<width>4</width>\n\t\t\t\t</LineStyle>\n\t\t\t</Style>\n\t\t\t<LineString>\n\t\t\t\t<coordinates>\n",i); 
+}
+void lookat(){
+	fprintf(file,"\n\t\t\t\t</coordinates>\n\t\t\t\t<LookAt>\n\t\t\t\t\t<longitude>%f</longitude>\n\t\t\t\t\t<latitude>%f</latitude>\n\t\t\t\t\t<altitude>0</altitude>\n\t\t\t\t\t<heading>0</heading>\n\t\t\t\t\t<tilt>45</tilt>\n\t\t\t\t\t<altitudeMode>clampToGround</altitudeMode>\n\t\t\t\t</LookAt>",sumLon/nPoints,sumLat/nPoints);
+}
+void footer(){
+	fprintf(file,"\n\t\t\t</LineString>\n\t\t</Placemark>\n\t</Document>\n</kml>");
+	sumLon=0.0;
+	sumLat=0.0;
+	nPoints=0;
+	fclose(file);
+}
+int main(int argc, char const *argv[]){
+	if(argc==1){
+		file=stdout;
+		yylex();
+	}else{
+		for(int i=1;i<argc;i++){
+			header(argv[i],i);
+			yylex();
+			lookat();
+			footer();
+		}
+	}
+	return 0;
+}

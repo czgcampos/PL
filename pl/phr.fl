@@ -1,0 +1,42 @@
+%{
+#define FLOAT 1
+#define ID 2
+#define PESQ 3
+#define PDIR 4
+#define CESQ 5
+#define RET 6
+#define LE 7
+#define NUM 8
+#define PI 9
+#define DP 10
+#define MUL 11
+#define PV 12
+#define CDIR 13
+%}
+
+%%
+
+"float"					{return FLOAT;}
+"("						{return PESQ;}
+")"						{return PDIR;}
+"{"						{return CESQ;}
+"}"						{return CDIR;}
+";"						{return PV;}
+"*"						{return MUL;}
+":"						{return DP;}
+"?"						{return PI;}
+(\-)?[0-9]+(.[0-9]+)?	{return NUM;}
+"<="					{return LE;}
+"return"				{return RET;}
+[a-zA-Z_][a-zA-Z0-9_-]*	{return ID;}
+"/*"[^*]*"*/"			{;}
+
+%%
+
+int main(){
+	int s;
+	while(s=yylex())
+		printf("%d ",s);
+	printf("\n");
+	return 0;
+}

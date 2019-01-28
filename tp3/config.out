@@ -1,0 +1,40 @@
+#I66 nome Carlos apelido Campos
+#I66 nasceu em 1996
+#I66 morreu em 9999
+#I66 FOTO fotolinda.jpg
+#I66 HIST historia.tex
+#I66 casou em 1996 com #aut1
+#aut1 nome Catarina
+#aut1 id 9
+#I66 tem-como-pai #aut2
+#aut2 nome Jose
+#aut2 id 10
+#I66 filho(a) #aut3
+#aut3 nome Vicente
+#aut3 id 13
+#I66 tem-como-mae #aut4
+#aut4 nome Maria
+#aut4 id 22
+#I66 mae-da-mae #aut5
+#aut5 nome Gloria
+#aut5 id 1
+#aut5 
+#I66 morreu em 1933
+#I66 pai-do-pai #aut6
+#aut6 nome Joaquim
+#aut6 id 90
+#I2 nome Antonio apelido Chaves%2
+Existem 2 pessoas com este nome
+#I2 nasceu em 1991
+#I2 morreu cerca de 2222
+#I2 FOTO foto.jpg
+#I2 HIST hist.tex
+#I2 casou em 1996 com #aut7
+#aut7 nome Julia
+#aut7 id 1
+#I2 tem-como-pai #aut8
+#aut8 nome Joaquim
+#aut8 id 3
+#I2 tem-como-mae #aut9
+#aut9 nome maria
+#aut9 id 4
